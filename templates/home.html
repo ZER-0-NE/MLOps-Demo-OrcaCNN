@@ -32,8 +32,8 @@
 <h1 style = "font-size: 60px; margin-bottom: 5px; text-align: center; color: aliceblue"> OrcaCNN Web Application </h1>
 	
 <div id = "typed-string"> 
-	<p> This is a real-time sentiment analysis tool.</p>
-	<p>You can simply run it by giving an image as input in the drop location below.</p>
+	<!-- <p> This is a real-time sentiment analysis tool.</p> -->
+	<!-- <p>You can simply run it by giving an image as input in the drop location below.</p> -->
 </div>
 
 <span id="typed" style="font-size: 30px; color: aliceblue; white-space: pre"></span>
@@ -49,7 +49,7 @@
 	
 <div id="drop-zone">
     	Drop files here...
-    <form method = "POST" action="" enctype="multipart/form-data">
+    <form method = "POST" action="{{display_spectrogram}}" enctype="multipart/form-data">
         <input type="file" name="audio_file" id="file" />
         <input type="submit" value = "Upload audio file"> 
     </form>
