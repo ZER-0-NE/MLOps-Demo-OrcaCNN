@@ -29,40 +29,40 @@ app.config['UPLOAD_EXTENSIONS'] = ['.wav']
 def home():
 	return render_template('home.html')
 
-@app.route('/upload', methods = ['GET'])
+@app.route('/home', methods = ['GET', 'POST'])
+def get_input_image():
+	uploaded_file = request.files['file']
+	print(uploaded_file)
+	filename = secure_filename(uploaded_file.filename)
+	print(filename)
+	if filename != '':
+		file_ext = os.path.splitext(filename)[1]
+		if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+			abort(400)
+		return redirect(url_for('upload'))
+	return render_template('home.html')
+
+
+@app.route('/upload', methods = ['GET','POST'])
 def upload_file():
-	if request.method == 'POST':
-		uploaded_file = request.files['file']
-		filename = secure_filename(uploaded_file.filename)
-		if filename != '':
-			file_ext = os.path.splitext(filename)[1]
-			if file_ext not in app.config['UPLOAD_EXTENSIONS']:
-				abort(400)
-			uploaded_file.save(uploaded_file.filename)
-		
-		return redirect(url_for('home'))
-	return render_template('upload.html')
+	fig = Figure()
+	axis = fig.add_subplot(1, 1, 1)
+	axis.set_title("title")
+	axis.set_xlabel("x-axis")
+	axis.set_ylabel("y-axis")
+	axis.grid()
+	axis.plot(range(5), range(5), "ro-")
 
-@app.route('/upload', methods = ['POST'])
-def display_spectrogram():
-	# Generate plot
-    fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
-    axis.set_title("title")
-    axis.set_xlabel("x-axis")
-    axis.set_ylabel("y-axis")
-    axis.grid()
-    axis.plot(range(5), range(5), "ro-")
+	# Convert plot to PNG image
+	pngImage = io.BytesIO()
+	FigureCanvas(fig).print_png(pngImage)
 
-    # Convert plot to PNG image
-    pngImage = io.BytesIO()
-    FigureCanvas(fig).print_png(pngImage)
+	# Encode PNG image to base64 string
+	pngImageB64String = "data:image/png;base64,"
+	pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
 
-    # Encode PNG image to base64 string
-    pngImageB64String = "data:image/png;base64,"
-    pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+	return render_template("upload.html", image=pngImageB64String)
 
-    return render_template("home.html", image=pngImageB64String)
 
 @app.route('/about')
 def about():

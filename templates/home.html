@@ -49,12 +49,14 @@
 	
 <div id="drop-zone">
     	Drop files here...
-    <form method = "POST" action="{{display_spectrogram}}" enctype="multipart/form-data">
+    <form action = "{{url_for('get_input_image')}}" method = "POST" enctype="multipart/form-data">
         <input type="file" name="audio_file" id="file" />
         <input type="submit" value = "Upload audio file"> 
     </form>
 
 </div>
+
+
 	
 
 </body>
