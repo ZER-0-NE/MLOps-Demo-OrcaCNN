@@ -1,5 +1,4 @@
 import os, sys, glob
-import cv2
 
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
@@ -11,6 +10,17 @@ import base64
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
+import os
+import glob
+import argparse
+import matplotlib.pyplot as plt
+import librosa
+import librosa.display
+import numpy as np
+
+from skimage.restoration import (denoise_wavelet, estimate_sigma)
+
+from PreProcessing import preprocess_chunk_img
 
 
 UPLOAD_FOLDER = 'uploads/'
@@ -31,16 +41,16 @@ def home():
 
 @app.route('/home', methods = ['GET', 'POST'])
 def get_input_image():
-	uploaded_file = request.files['file']
-	print(uploaded_file)
+	uploaded_file = request.files['audio_file']
 	filename = secure_filename(uploaded_file.filename)
-	print(filename)
+	# print(filename)
 	if filename != '':
 		file_ext = os.path.splitext(filename)[1]
 		if file_ext not in app.config['UPLOAD_EXTENSIONS']:
-			abort(400)
-		return redirect(url_for('upload'))
+			abort(400) # TODO: do proper error handling
+		return redirect(url_for('upload.html'))
 	return render_template('home.html')
+
 
 
 @app.route('/upload', methods = ['GET','POST'])
