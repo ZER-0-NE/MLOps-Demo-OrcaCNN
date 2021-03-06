@@ -5,7 +5,9 @@
         OrcaCNN Web Application
 	</title>
 	<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
-    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+    
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+	<link rel="stylesheet" type="text/css" href="static/css/main.css">
 	<!-- <script src = "typed.js"></script> -->
 	<!-- <script data-main="static/js/main" src="/static/js/require.js"></script> -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -47,17 +49,15 @@
 	  });
 </script>
 	
-<div id="drop-zone">
-    	Drop files here...
-    <form action = "{{url_for('upload_file')}}" method = "POST" enctype="multipart/form-data">
-        <input type="file" name="audio_file" id="file">
-        <input type="submit" value = "Upload audio file"> 
-    </form>
 
-</div>
+<form action = "{{url_for('get_input_image')}}" method = "POST" enctype="multipart/form-data" class="dropzone">
+	<input type="file" name="audio_file" id="file">
+	<input type="submit" value = "Upload audio file"> 
+</form>
+
 
 
 	
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
 </body>
 </html>

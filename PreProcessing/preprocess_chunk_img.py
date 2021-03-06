@@ -36,7 +36,7 @@ def wavelet_denoising(data):
               wide range of noise types competing for the same subspace.
     '''
     sigma_est = estimate_sigma(data, multichannel=True, average_sigmas=True)
-    im_bayes = denoise_wavelet(data, multichannel=False, convert2ycbcr=True, method='BayesShrink',
+    im_bayes = denoise_wavelet(data, multichannel=True, convert2ycbcr=True, method='BayesShrink',
                                mode='soft')
     im_visushrink = denoise_wavelet(data, multichannel=False, convert2ycbcr=True, method='VisuShrink',
                                     mode='soft')

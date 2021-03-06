@@ -44,6 +44,17 @@ img{
     width: 314px;
     height: 249px;
 } */
+.dropzone {
+    min-height: 150px;
+    border: 2px solid rgba(0,0,0,0.3);
+    background: rgb(165, 204, 219);
+    padding: 20px 20px;
+}
+
+form.dropzone.dz-clickable {
+    width: min-content;
+    color: rgba(2, 12, 15, 0.808);
+}
 
 #drop-zone {
         width: 238px;

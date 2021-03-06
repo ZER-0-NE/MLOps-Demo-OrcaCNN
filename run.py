@@ -18,10 +18,8 @@ import librosa
 import librosa.display
 import numpy as np
 
-from skimage.restoration import (denoise_wavelet, estimate_sigma)
-
 from PreProcessing import preprocess_chunk_img
-
+import logging
 
 UPLOAD_FOLDER = 'uploads/'
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -33,6 +31,7 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config['UPLOAD_EXTENSIONS'] = ['.wav']
 
+logging.getLogger('matplotlib.font_manager').disabled = True
 
 @app.route('/')
 @app.route('/home')
@@ -47,31 +46,32 @@ def get_input_image():
 	if filename != '':
 		file_ext = os.path.splitext(filename)[1]
 		if file_ext not in app.config['UPLOAD_EXTENSIONS']:
-			abort(400) # TODO: do proper error handling
-		return redirect(url_for('upload.html'))
+			return "Invalid upload", 400 # TODO: do proper error handling
+		uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		return redirect(url_for('upload_file'))
 	return render_template('home.html')
-
-
 
 @app.route('/upload', methods = ['GET','POST'])
 def upload_file():
-	fig = Figure()
-	axis = fig.add_subplot(1, 1, 1)
-	axis.set_title("title")
-	axis.set_xlabel("x-axis")
-	axis.set_ylabel("y-axis")
-	axis.grid()
-	axis.plot(range(5), range(5), "ro-")
+	# preprocess_chunk_img.main(args)
+	return "Uploaded successfully"
+	# fig = Figure()
+	# axis = fig.add_subplot(1, 1, 1)
+	# axis.set_title("title")
+	# axis.set_xlabel("x-axis")
+	# axis.set_ylabel("y-axis")
+	# axis.grid()
+	# axis.plot(range(5), range(5), "ro-")
 
 	# Convert plot to PNG image
-	pngImage = io.BytesIO()
-	FigureCanvas(fig).print_png(pngImage)
+	# pngImage = io.BytesIO()
+	# FigureCanvas(fig).print_png(pngImage)
 
 	# Encode PNG image to base64 string
-	pngImageB64String = "data:image/png;base64,"
-	pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+	# pngImageB64String = "data:image/png;base64,"
+	# pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
 
-	return render_template("upload.html", image=pngImageB64String)
+	# return render_template("upload.html", image=pngImageB64String)
 
 
 @app.route('/about')

@@ -1,2 +1,7 @@
-# React-Docker-Demo
-Demo on how to deploy ML models on Docker and handle simple requests from React frontend using Flask.
+# OrcaCNN Web-Application
+
+
+### Things to take care of:
+
+- Please input audio files which are significantly longer. 
+- Currentl only supports `.wav` files.
