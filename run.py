@@ -1,4 +1,6 @@
-import os, sys, glob
+import os
+import sys
+import glob
 
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
@@ -33,54 +35,54 @@ app.config['UPLOAD_EXTENSIONS'] = ['.wav']
 
 logging.getLogger('matplotlib.font_manager').disabled = True
 
+
 @app.route('/')
 @app.route('/home')
 def home():
-	return render_template('home.html')
+    return render_template('home.html')
 
-@app.route('/home', methods = ['GET', 'POST'])
+
+@app.route('/home', methods=['GET', 'POST'])
 def get_input_image():
-	uploaded_file = request.files['audio_file']
-	filename = secure_filename(uploaded_file.filename)
-	# print(filename)
-	if filename != '':
-		file_ext = os.path.splitext(filename)[1]
-		if file_ext not in app.config['UPLOAD_EXTENSIONS']:
-			return "Invalid upload", 400 # TODO: do proper error handling
-		uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		return redirect(url_for('upload_file'))
-	return render_template('home.html')
+    uploaded_file = request.files['audio_file']
+    filename = secure_filename(uploaded_file.filename)
+    # print(filename)
+    if filename != '':
+        file_ext = os.path.splitext(filename)[1]
+        if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+            return "Invalid upload", 400  # TODO: do proper error handling
+        uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return redirect(url_for('upload_file'))
+    return render_template('home.html')
 
-@app.route('/upload', methods = ['GET','POST'])
+
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-	# preprocess_chunk_img.main(args)
-	return "Uploaded successfully"
-	# fig = Figure()
-	# axis = fig.add_subplot(1, 1, 1)
-	# axis.set_title("title")
-	# axis.set_xlabel("x-axis")
-	# axis.set_ylabel("y-axis")
-	# axis.grid()
-	# axis.plot(range(5), range(5), "ro-")
+    preprocess_chunk_img.main(classpath = 'uploads/')
+    return "Uploaded successfully"
+    # fig = Figure()
+    # axis = fig.add_subplot(1, 1, 1)
+    # axis.set_title("title")
+    # axis.set_xlabel("x-axis")
+    # axis.set_ylabel("y-axis")
+    # axis.grid()
+    # axis.plot(range(5), range(5), "ro-")
 
-	# Convert plot to PNG image
-	# pngImage = io.BytesIO()
-	# FigureCanvas(fig).print_png(pngImage)
+    # Convert plot to PNG image
+    # pngImage = io.BytesIO()
+    # FigureCanvas(fig).print_png(pngImage)
 
-	# Encode PNG image to base64 string
-	# pngImageB64String = "data:image/png;base64,"
-	# pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+    # Encode PNG image to base64 string
+    # pngImageB64String = "data:image/png;base64,"
+    # pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
 
-	# return render_template("upload.html", image=pngImageB64String)
+    # return render_template("upload.html", image=pngImageB64String)
 
 
 @app.route('/about')
 def about():
-	return render_template('about.html')
-
+    return render_template('about.html')
 
 
 if __name__ == '__main__':
-	app.run(debug = True)
-
-
+    app.run(debug=True)
