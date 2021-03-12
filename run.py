@@ -3,6 +3,7 @@ import sys
 import glob
 
 from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import send_from_directory
 from werkzeug.utils import secure_filename
 from PIL import Image
 
@@ -44,21 +45,29 @@ def home():
 
 @app.route('/home', methods=['GET', 'POST'])
 def get_input_image():
+    if request.method == 'GET':
+        return render_template('home.html')
+
+    if request.method == 'POST':
+        if 'audio_file' not in request.files:
+            flash('No file was uploaded.') # TODO: catch error
+            return redirect(request.url)
+
     uploaded_file = request.files['audio_file']
     filename = secure_filename(uploaded_file.filename)
-    # print(filename)
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
         if file_ext not in app.config['UPLOAD_EXTENSIONS']:
             return "Invalid upload", 400  # TODO: do proper error handling
         uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return redirect(url_for('upload_file'))
-    return render_template('home.html')
+    flash('No file was uploaded.')  # TODO: catch error
+    return redirect(request.url)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    preprocess_chunk_img.main(classpath = 'uploads/')
+    # preprocess_chunk_img.main(classpath = 'uploads/')
     return "Uploaded successfully"
     # fig = Figure()
     # axis = fig.add_subplot(1, 1, 1)

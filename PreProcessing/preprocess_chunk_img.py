@@ -36,17 +36,17 @@ def wavelet_denoising(data):
               wide range of noise types competing for the same subspace.
     '''
     sigma_est = estimate_sigma(data, multichannel=True, average_sigmas=True)
-    im_bayes = denoise_wavelet(data, multichannel=True, convert2ycbcr=True, method='BayesShrink',
+    im_bayes = denoise_wavelet(data, multichannel=False, convert2ycbcr=False, method='BayesShrink',
                                mode='soft')
-    im_visushrink = denoise_wavelet(data, multichannel=False, convert2ycbcr=True, method='VisuShrink',
+    im_visushrink = denoise_wavelet(data, multichannel=False, convert2ycbcr=False, method='VisuShrink',
                                     mode='soft')
 
     # VisuShrink is designed to eliminate noise with high probability, but this
     # results in a visually over-smooth appearance. Here, we specify a reduction
     # in the threshold by factors of 2 and 4.
-    im_visushrink2 = denoise_wavelet(data, multichannel=False, convert2ycbcr=True, method='VisuShrink',
+    im_visushrink2 = denoise_wavelet(data, multichannel=False, convert2ycbcr=False, method='VisuShrink',
                                      mode='soft', sigma=sigma_est / 2)
-    im_visushrink4 = denoise_wavelet(data, multichannel=False, convert2ycbcr=True, method='VisuShrink',
+    im_visushrink4 = denoise_wavelet(data, multichannel=False, convert2ycbcr=False, method='VisuShrink',
                                      mode='soft', sigma=sigma_est / 4)
     return im_bayes
 
@@ -202,33 +202,33 @@ def main(args):
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(
-        description="Pre-Process the audio files and save as spectrogram images")
-    parser.add_argument(
-        '-c',
-        '--classpath',
-        type=str,
-        help='directory with list of classes',
-        required=True)
-    parser.add_argument(
-        '-r',
-        '--resampling',
-        type=int,
-        default=44100,
-        help='choose sampling rate')
-    parser.add_argument(
-        '-s',
-        "--chunks",
-        type=int,
-        default=3,
-        help='Chunk Size for each sample to be divided to')
-    parser.add_argument(
-        '-m',
-        "--silent",
-        type=bool,
-        default=False,
-        help='Remove silent (dB<-80) audio chunks from PreProcesses_audio')
+    # parser = argparse.ArgumentParser(
+    #     description="Pre-Process the audio files and save as spectrogram images")
+    # parser.add_argument(
+    #     '-c',
+    #     '--classpath',
+    #     type=str,
+    #     help='directory with list of classes',
+    #     required=True)
+    # parser.add_argument(
+    #     '-r',
+    #     '--resampling',
+    #     type=int,
+    #     default=44100,
+    #     help='choose sampling rate')
+    # parser.add_argument(
+    #     '-s',
+    #     "--chunks",
+    #     type=int,
+    #     default=3,
+    #     help='Chunk Size for each sample to be divided to')
+    # parser.add_argument(
+    #     '-m',
+    #     "--silent",
+    #     type=bool,
+    #     default=False,
+    #     help='Remove silent (dB<-80) audio chunks from PreProcesses_audio')
 
-    args = parser.parse_args()
+    # args = parser.parse_args()
 
-    main(args)
+    main(classpath)
