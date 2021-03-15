@@ -152,11 +152,11 @@ def remove_silent_chunk(output_audio_folder):
                     logger.info(f"Removed audio chunk: {f_n}")
 
 
-def main(args):
-    sampling_rate = args.resampling
-    file_path_audio = args.classpath
-    chunkSize = args.chunks
-    silent_chunks_delete = args.silent
+def main(**kwargs):
+    sampling_rate = kwargs['resampling']
+    file_path_audio = kwargs['classpath']
+    chunkSize = kwargs['chunks']
+    silent_chunks_delete = kwargs['silent']
 
     no_of_files = len(os.listdir('.'))
 
@@ -202,33 +202,33 @@ def main(args):
 
 if __name__ == '__main__':
 
-    # parser = argparse.ArgumentParser(
-    #     description="Pre-Process the audio files and save as spectrogram images")
-    # parser.add_argument(
-    #     '-c',
-    #     '--classpath',
-    #     type=str,
-    #     help='directory with list of classes',
-    #     required=True)
-    # parser.add_argument(
-    #     '-r',
-    #     '--resampling',
-    #     type=int,
-    #     default=44100,
-    #     help='choose sampling rate')
-    # parser.add_argument(
-    #     '-s',
-    #     "--chunks",
-    #     type=int,
-    #     default=3,
-    #     help='Chunk Size for each sample to be divided to')
-    # parser.add_argument(
-    #     '-m',
-    #     "--silent",
-    #     type=bool,
-    #     default=False,
-    #     help='Remove silent (dB<-80) audio chunks from PreProcesses_audio')
+    parser = argparse.ArgumentParser(
+        description="Pre-Process the audio files and save as spectrogram images")
+    parser.add_argument(
+        '-c',
+        '--classpath',
+        type=str,
+        help='directory with list of classes',
+        required=True)
+    parser.add_argument(
+        '-r',
+        '--resampling',
+        type=int,
+        default=44100,
+        help='choose sampling rate')
+    parser.add_argument(
+        '-s',
+        "--chunks",
+        type=int,
+        default=3,
+        help='Chunk Size for each sample to be divided to')
+    parser.add_argument(
+        '-m',
+        "--silent",
+        type=bool,
+        default=False,
+        help='Remove silent (dB<-80) audio chunks from PreProcesses_audio')
 
-    # args = parser.parse_args()
+    kwargs = parser.parse_args()
 
-    main(classpath)
+    main(**kwargs)

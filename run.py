@@ -32,7 +32,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-app.config['UPLOAD_EXTENSIONS'] = ['.wav']
+app.config['UPLOAD_EXTENSIONS'] = ['.wav', '.WAV']
 
 logging.getLogger('matplotlib.font_manager').disabled = True
 
@@ -60,32 +60,34 @@ def get_input_image():
         if file_ext not in app.config['UPLOAD_EXTENSIONS']:
             return "Invalid upload", 400  # TODO: do proper error handling
         uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('upload_file'))
+        return redirect(url_for('upload_file',  filename=filename))
     flash('No file was uploaded.')  # TODO: catch error
     return redirect(request.url)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    # preprocess_chunk_img.main(classpath = 'uploads/')
-    return "Uploaded successfully"
-    # fig = Figure()
-    # axis = fig.add_subplot(1, 1, 1)
-    # axis.set_title("title")
-    # axis.set_xlabel("x-axis")
-    # axis.set_ylabel("y-axis")
-    # axis.grid()
-    # axis.plot(range(5), range(5), "ro-")
+    filename = request.args['filename']
+    preprocess_chunk_img.main(classpath=f'uploads/{filename}',
+                              resampling=44100, chunks=1, silent=False)
+    # return "Uploaded successfully"
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    axis.set_title("title")
+    axis.set_xlabel("x-axis")
+    axis.set_ylabel("y-axis")
+    axis.grid()
+    axis.plot(range(5), range(5), "ro-")
 
     # Convert plot to PNG image
-    # pngImage = io.BytesIO()
-    # FigureCanvas(fig).print_png(pngImage)
+    pngImage = io.BytesIO()
+    FigureCanvas(fig).print_png(pngImage)
 
     # Encode PNG image to base64 string
-    # pngImageB64String = "data:image/png;base64,"
-    # pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
+    pngImageB64String = "data:image/png;base64,"
+    pngImageB64String += base64.b64encode(pngImage.getvalue()).decode('utf8')
 
-    # return render_template("upload.html", image=pngImageB64String)
+    return render_template("upload.html", image=pngImageB64String)
 
 
 @app.route('/about')
