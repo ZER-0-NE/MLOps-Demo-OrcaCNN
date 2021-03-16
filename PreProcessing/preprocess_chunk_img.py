@@ -108,8 +108,8 @@ def standardize_and_plot(sampling_rate, file_path_image):
     logger.info(f"All files will be resampled to {sampling_rate}Hz")
 
     output_image_folder = "PreProcessed_image/"
-
     for dirs, subdirs, files in os.walk(file_path_image):
+        print("YES std plot")
         for i, file in enumerate(files):
             if file.endswith(('.wav', '.WAV')):
                 logger.info(f"Pre-Processing file: {file}")
@@ -153,6 +153,7 @@ def remove_silent_chunk(output_audio_folder):
 
 
 def main(**kwargs):
+    print(kwargs)
     sampling_rate = kwargs['resampling']
     file_path_audio = kwargs['classpath']
     chunkSize = kwargs['chunks']
@@ -161,7 +162,6 @@ def main(**kwargs):
     no_of_files = len(os.listdir('.'))
 
     output_audio_folder = "PreProcessed_audio/"
-
     # Traverse all files inside each sub-folder and make chunks of audio file
     for dirs, subdirs, files in os.walk(file_path_audio):
         for file in files:
