@@ -22,18 +22,20 @@ import librosa.display
 import numpy as np
 
 import logging
+from orcacnnapp.config import Config
 
-UPLOAD_FOLDER = 'uploads/'
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = 'super secret key'
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-app.config['UPLOAD_EXTENSIONS'] = ['.wav', '.WAV']
 
 logging.getLogger('matplotlib.font_manager').disabled = True
 
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
-from orcacnnapp import routes
+    from orcacnnapp.main.routes import main
+    from orcacnnapp.upload.routes import upload
+
+    app.register_blueprint(main)
+    app.register_blueprint(upload)
+
+    return app
