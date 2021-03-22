@@ -25,6 +25,8 @@ import numpy as np
 
 import logging
 
+from flask import current_app
+
 main = Blueprint('main', __name__)
 
 
@@ -48,9 +50,10 @@ def get_input_image():
     filename = secure_filename(uploaded_file.filename)
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
-        if file_ext not in app.config['UPLOAD_EXTENSIONS']:
+        if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
             return "Invalid upload", 400  # TODO: do proper error handling
-        uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        uploaded_file.save(os.path.join(
+            current_app.config['UPLOAD_FOLDER'], filename))
         return redirect(url_for('upload.upload_file',  filename=filename))
     flash('No file was uploaded.')  # TODO: catch error
     return redirect(request.url)

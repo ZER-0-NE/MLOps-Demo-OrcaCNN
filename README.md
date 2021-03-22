@@ -10,4 +10,6 @@
 
  - audio files uploaded are stored in the `uploads` folder first and are then picked up by the pre-processing script.
 
- - is there a way to stop pre-processing scripy mid-way? refresh does not workl.
+ - is there a way to stop pre-processing scripy mid-way? refresh does not work.
+
+ - THis app uses [blueprints](https://flask.palletsprojects.com/en/1.1.x/blueprints/#blueprints) and [application factories](https://flask.palletsprojects.com/en/1.1.x/patterns/appfactories/)

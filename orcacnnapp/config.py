@@ -1,5 +1,3 @@
-
-
 class Config:
     UPLOAD_FOLDER = 'uploads/'
     secret_key = 'super secret key'

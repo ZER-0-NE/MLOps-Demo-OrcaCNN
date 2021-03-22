@@ -30,12 +30,13 @@ logging.getLogger('matplotlib.font_manager').disabled = True
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
 
     from orcacnnapp.main.routes import main
     from orcacnnapp.upload.routes import upload
-
+    from orcacnnapp.errors.handlers import errors
     app.register_blueprint(main)
     app.register_blueprint(upload)
+    app.register_blueprint(errors)
 
     return app
