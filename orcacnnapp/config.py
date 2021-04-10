@@ -1,6 +1,7 @@
 class Config:
     UPLOAD_FOLDER = 'uploads/'
-    secret_key = 'super secret key'
+    IMAGE_FOLDER = 'PreProcessed_image/PreProcessed_audio/uploads/'
+    # secret_key = 'super secret key'
     SESSION_TYPE = 'filesystem'
     SEND_FILE_MAX_AGE_DEFAULT = 0
     UPLOAD_EXTENSIONS= ['.wav', '.WAV']

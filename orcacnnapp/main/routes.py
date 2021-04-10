@@ -54,7 +54,7 @@ def get_input_image():
             return "Invalid upload", 400  # TODO: do proper error handling
         uploaded_file.save(os.path.join(
             current_app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('upload.upload_file',  filename=filename))
+        return redirect(url_for('upload.upload_file_and_display',  filename=filename))
     flash('No file was uploaded.')  # TODO: catch error
     return redirect(request.url)
 
