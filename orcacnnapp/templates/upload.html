@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <h3>(Please do not refresh) </h3> <!--# TODO: do not allow user to repeat pattern -->
+      <h3>(Please do not refresh. You'll repeat pre-processing) </h3> <!--# TODO: do not allow user to repeat pattern -->
         <meta charset="utf-8"/>
         <style>
         body {
@@ -50,7 +50,7 @@
         <div class="content_img">
         <a class="image" href="{{ image.src }}" style="width: {{ image.width }}px; height: {{ image.height }}px">
             <img src="{{ image.src }}" data-src="{{ image.src }}?w={{ image.width }}&amp;h={{ image.height }}" width="{{ image.width }}" height="{{ image.height }}" />
-        <div>Image 1 Text</div>
+        <div>{{ image.src[46:] }}</div>
         </a>
          
         </div>

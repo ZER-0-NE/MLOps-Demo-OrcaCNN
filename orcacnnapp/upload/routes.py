@@ -39,9 +39,8 @@ def upload_file_and_display():
     try:
         os.remove("uploads/"+filename)
     except Exception as e:
-        return render_template('errors/404.html'), 404
+        pass # on refresh
 
-    # return "Uploaded successfully"
     images = []
     for root, dirs, files in os.walk(current_app.config['IMAGE_FOLDER']):
         for filename in [os.path.join(root, name) for name in files]:

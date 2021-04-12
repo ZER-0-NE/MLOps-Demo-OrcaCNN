@@ -16,10 +16,7 @@ from matplotlib.figure import Figure
 import os
 import glob
 import argparse
-import matplotlib.pyplot as plt
-import librosa
-import librosa.display
-import numpy as np
+
 
 import logging
 from orcacnnapp.config import Config
