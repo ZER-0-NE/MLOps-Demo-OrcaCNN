@@ -1,27 +1,13 @@
-from flask import Blueprint
-
 import os
-import sys
-import glob
 
-from flask import Flask, flash, request, redirect, url_for, render_template, Response, render_template_string
+from flask import request, render_template, Response, current_app
 from flask import send_from_directory
-from werkzeug.utils import secure_filename
+from flask import Blueprint
 from PIL import Image
 
-import io
-import base64
-
 from io import BytesIO
-import os
-import glob
-import argparse
-
-
-import logging
 
 from PreProcessing import preprocess_chunk_img
-from flask import current_app
 
 WIDTH = 640
 HEIGHT = 640
@@ -37,9 +23,9 @@ def upload_file_and_display():
 
     # remove the uploaded file once images are created
     try:
-        os.remove("uploads/"+filename)
-    except Exception as e:
-        pass # on refresh
+        os.remove("uploads/" + filename)
+    except Exception:
+        pass  # on refresh
 
     images = []
     for root, dirs, files in os.walk(current_app.config['IMAGE_FOLDER']):
@@ -48,13 +34,13 @@ def upload_file_and_display():
                 continue
             im = Image.open(filename)
             w, h = im.size
-            aspect = 1.0*w/h
-            if aspect > 1.0*WIDTH/HEIGHT:
+            aspect = 1.0 * w / h
+            if aspect > 1.0 * WIDTH / HEIGHT:
                 width = min(w, WIDTH)
-                height = width/aspect
+                height = width / aspect
             else:
                 height = min(h, HEIGHT)
-                width = height*aspect
+                width = height * aspect
             images.append({
                 'width': int(width),
                 'height': int(height),

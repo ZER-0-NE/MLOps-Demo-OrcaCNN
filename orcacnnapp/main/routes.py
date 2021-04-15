@@ -1,31 +1,7 @@
-from flask import Blueprint
-
 import os
-import sys
-import glob
 
-from flask import Flask, flash, request, redirect, url_for, render_template
-from flask import send_from_directory
+from flask import request, redirect, url_for, render_template, Blueprint, current_app
 from werkzeug.utils import secure_filename
-from PIL import Image
-
-import io
-import base64
-
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-
-import os
-import glob
-import argparse
-import matplotlib.pyplot as plt
-import librosa
-import librosa.display
-import numpy as np
-
-import logging
-
-from flask import current_app
 
 main = Blueprint('main', __name__)
 
@@ -54,7 +30,8 @@ def get_input_image():
             return render_template('errors/415.html'), 415
         uploaded_file.save(os.path.join(
             current_app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('upload.upload_file_and_display',  filename=filename))
+        return redirect(url_for('upload.upload_file_and_display',
+                                filename=filename))
     return render_template('errors/400.html'), 400
     return redirect(request.url)
 
