@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from flask import request, render_template, Response, current_app
 from flask import send_from_directory
@@ -8,6 +9,10 @@ from PIL import Image
 from io import BytesIO
 
 from PreProcessing import preprocess_chunk_img
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 WIDTH = 640
 HEIGHT = 640
@@ -24,8 +29,9 @@ def upload_file_and_display():
     # remove the uploaded file once images are created
     try:
         os.remove("uploads/" + filename)
-    except Exception:
-        pass  # on refresh
+        shutil.rmtree(current_app.config['AUDIO_FOLDER'])
+    except OSError as e:
+        logger.error(f"Error: {e.filename} - {e.strerror}", exc_info=True)
 
     images = []
     for root, dirs, files in os.walk(current_app.config['IMAGE_FOLDER']):
