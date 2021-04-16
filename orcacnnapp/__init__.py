@@ -18,9 +18,11 @@ def create_app(config_class=Config):
 
     from orcacnnapp.main.routes import main
     from orcacnnapp.upload.routes import upload
+    from orcacnnapp.predict.routes import predict_blueprint
     from orcacnnapp.errors.handlers import errors
     app.register_blueprint(main)
     app.register_blueprint(upload)
+    app.register_blueprint(predict_blueprint)
     app.register_blueprint(errors)
 
     return app
