@@ -18,21 +18,17 @@ def get_input_image():
         return render_template('home.html')
 
     if request.method == 'POST':
-        if 'audio_file' not in request.files:
-            return render_template('errors/400.html'), 400
-            return redirect(request.url)
-
-    uploaded_file = request.files['audio_file']
-    filename = secure_filename(uploaded_file.filename)
-    if filename != '':
-        file_ext = os.path.splitext(filename)[1]
-        if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
-            return render_template('errors/415.html'), 415
-        uploaded_file.save(os.path.join(
-            current_app.config['UPLOAD_FOLDER'], filename))
-        return redirect(url_for('upload.upload_file_and_display',
-                                filename=filename))
-    return render_template('errors/400.html'), 400
+        uploaded_file = request.files['audio_file']
+        filename = secure_filename(uploaded_file.filename)
+        if filename != '':
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext not in current_app.config['UPLOAD_EXTENSIONS']:
+                return render_template('errors/415.html'), 415
+            uploaded_file.save(os.path.join(
+                current_app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('upload.upload_file_and_display',
+                                    filename=filename))
+        return render_template('errors/400.html'), 400
     return redirect(request.url)
 
 
