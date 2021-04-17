@@ -51,9 +51,9 @@ def image(filename):
         im = Image.open(filename)
         io = BytesIO()
         im.save(io, format='PNG')
-        return Response(io.getvalue(), mimetype='image/jpeg')
+        return Response(io.getvalue(), mimetype='image/png')
 
     except IOError:
         return render_template('errors/404.html'), 404
 
-    return send_from_directory(current_app.config['IMAGE_FOLDER'], filename)
+    return send_from_directory(current_app.config['PREDICT_FOLDER'], filename)

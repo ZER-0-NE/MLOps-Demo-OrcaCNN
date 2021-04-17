@@ -24,7 +24,7 @@ upload = Blueprint('upload', __name__)
 def upload_file_and_display():
     filename = request.args['filename']
     preprocess_chunk_img.main(classpath='uploads',
-                              resampling=44100, chunks=1, silent=False)
+                              resampling=44100, chunks=1, silent=True)
 
     # remove the uploaded file once images are created
     try:
@@ -63,7 +63,7 @@ def image(filename):
         im = Image.open(filename)
         io = BytesIO()
         im.save(io, format='PNG')
-        return Response(io.getvalue(), mimetype='image/jpeg')
+        return Response(io.getvalue(), mimetype='image/png')
 
     except IOError:
         return render_template('errors/404.html'), 404
