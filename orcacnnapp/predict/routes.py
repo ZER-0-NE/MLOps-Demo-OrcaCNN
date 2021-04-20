@@ -20,8 +20,13 @@ HEIGHT = 640
 
 @predict_blueprint.route('/predict', methods=['GET', 'POST'])
 def predict_from_model():
-    predict.predict(model_path='models/julyNew_adam-84-0.08.h5',
+    try:
+        predict.predict(model_path='models/checkpointOrcaCNN_detection_adam_cstr_lr5_2x3_str3-41-0.11.h5',
                  test_path='PreProcessed_image/PreProcessed_audio/uploads/')
+    except Exception as e:
+        logger.error(f"Exception: {e}", exc_info=True)
+        return render_template('errors/500.html'), 500
+
     images = []
     for root, dirs, files in os.walk(current_app.config['PREDICT_FOLDER']):
         for filename in [os.path.join(root, name) for name in files]:

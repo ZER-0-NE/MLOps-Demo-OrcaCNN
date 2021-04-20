@@ -23,13 +23,17 @@ upload = Blueprint('upload', __name__)
 @upload.route('/upload', methods=['GET', 'POST'])
 def upload_file_and_display():
     filename = request.args['filename']
-    preprocess_chunk_img.main(classpath='uploads',
+    try:
+        preprocess_chunk_img.main(classpath='uploads',
                               resampling=44100, chunks=1, silent=True)
+    except Exception as e:
+        logger.error(f"Exception: {e}", exc_info=True)
+        return render_template('errors/500.html'), 500
 
     # remove the uploaded file once images are created
     try:
         os.remove("uploads/" + filename)
-        shutil.rmtree(current_app.config['AUDIO_FOLDER'])
+        # shutil.rmtree(current_app.config['AUDIO_FOLDER'])
     except OSError as e:
         logger.error(f"Error: {e.filename} - {e.strerror}", exc_info=True)
 
