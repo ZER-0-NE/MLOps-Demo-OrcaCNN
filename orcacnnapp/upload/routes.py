@@ -33,7 +33,7 @@ def upload_file_and_display():
     # remove the uploaded file once images are created
     try:
         os.remove("uploads/" + filename)
-        # shutil.rmtree(current_app.config['AUDIO_FOLDER'])
+        shutil.rmtree(current_app.config['AUDIO_FOLDER'])
     except OSError as e:
         logger.error(f"Error: {e.filename} - {e.strerror}", exc_info=True)
 
