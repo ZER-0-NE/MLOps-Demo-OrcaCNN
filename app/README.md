@@ -15,3 +15,5 @@
  - THis app uses [blueprints](https://flask.palletsprojects.com/en/1.1.x/blueprints/#blueprints) and [application factories](https://flask.palletsprojects.com/en/1.1.x/patterns/appfactories/)
 
  - before running docker on port 80, check if your port 80 is free by `sudo lsof -i :80`, if it shows nginx, stop it using sudo nginx -s stop
+
+ - use buildkit for docker-compose: sudo COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build and have the line `# syntax=docker/dockerfile:1` in your dockerfile
